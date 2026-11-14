@@ -1,4 +1,14 @@
-# To-Do List
+# 📚 KUIS LAB PEMROGRAMAN WEB
+
+Nama : Bunga Lestari
+
+NIM  : 251401023
+
+Lab  : 3 
+
+---
+
+# To-Do List 📝
 
 To-Do List dibuat untuk mengelola tugas sehari-hari. Pengguna bisa melihat, menambahkan, memperbarui, dan menghapus tugas.
 
