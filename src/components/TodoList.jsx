@@ -1,4 +1,3 @@
-
 function TodoList({ todos, onDetail, onDelete }) {
   const formatDeadline = (date) => {
     if (!date) return "-";

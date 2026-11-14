@@ -1,4 +1,3 @@
-
 import TodoForm from "./TodoForm";
 
 function TodoModal({ type, todo, onClose, onEdit, onCreate, onUpdate }) {
