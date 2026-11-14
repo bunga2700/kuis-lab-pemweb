@@ -1,122 +1,111 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+
+import { useState } from "react";
+import TodoForm from "./components/TodoForm";
+import TodoList from "./components/TodoList";
+import TodoModal from "./components/TodoModal";
+import "./App.css";
+
+const initialTodos = [
+  {
+    id: 1,
+    title: "Project Lab Pemweb",
+    description: "Menyelesaikan pembuatan website rumah karsa",
+    priority: "Medium",
+    deadline: "2026-11-30",
+    status: "In Progress",
+  },
+  {
+    id: 2,
+    title: "Persiapan UTS Lab Struktur Data",
+    description: "Mengulang materi pertemuan 1-4",
+    priority: "High",
+    deadline: "2026-11-17",
+    status: "In Progress",
+  },
+  {
+    id: 3,
+    title: "Quiz Lab Struktur Data",
+    description: "Mengerjakan soal 1-4, dan buat video penjelasan code",
+    priority: "High",
+    deadline: "2026-11-14",
+    status: "Done",
+  },
+  {
+    id: 4,
+    title: "Tugas kelompok KCB",
+    description: "Implementasi ANFIS dengan Python",
+    priority: "Medium",
+    deadline: "2026-11-21",
+    status: "To Do",
+  },
+  {
+    id: 5,
+    title: "Tugas kelompok MKWU (Extensive Reading)",
+    description: "Membuat ppt dan analisis artikel yang diberikan",
+    priority: "Low",
+    deadline: "2026-11-23",
+    status: "To Do",
+  },
+];
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [todos, setTodos] = useState(initialTodos);
+  const [modalType, setModalType] = useState(null);
+  const [selectedTodo, setSelectedTodo] = useState(null);
+
+  const handleClose = () => {
+    setModalType(null);
+    setSelectedTodo(null);
+  };
+
+  const handleCreate = (data) => {
+    setTodos([...todos, { ...data, id: Date.now() }]);
+    handleClose();
+  };
+
+  const handleUpdate = (data) => {
+    setTodos(todos.map((todo) =>
+      todo.id === selectedTodo.id ? { ...data, id: todo.id } : todo
+    ));
+    handleClose();
+  };
+
+  const handleDelete = (id) => {
+    if (window.confirm("Apakah yakin ingin menghapus tugas ini?")) {
+      setTodos(todos.filter((todo) => todo.id !== id));
+    }
+  };
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
+    <div className="app-container">
+      <header className="page-header">
+        <h1>Todo List 📝</h1>
+        <button className="btn-primary" onClick={() => setModalType("add")}>
+          + Tambah Tugas
         </button>
-      </section>
+      </header>
 
-      <div className="ticks"></div>
+      <TodoList
+        todos={todos}
+        onDetail={(todo) => {
+          setSelectedTodo(todo);
+          setModalType("detail");
+        }}
+        onDelete={handleDelete}
+      />
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+      {modalType && (
+        <TodoModal
+          type={modalType}
+          todo={selectedTodo}
+          onClose={handleClose}
+          onEdit={() => setModalType("edit")}
+          onCreate={handleCreate}
+          onUpdate={handleUpdate}
+        />
+      )}
+    </div>
+  );
 }
 
-export default App
+export default App;
