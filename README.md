@@ -26,7 +26,7 @@ Aplikasi ini memiliki beberapa fitur utama, yaitu:
 
 Status pengerjaan tugas terdiri dari To Do, In Progress, dan Done. Sementara itu, tingkat prioritas terdiri dari Low, Medium, dan High.
 
-Seluruh perubahan data dikelola menggunakan React State sehingga penambahan, pembaruan, dan penghapusan tugas dapat langsung ditampilkan tanpa perlu memuat ulang halaman.
+Seluruh perubahan data dikelola menggunakan React State agar penambahan, pembaruan, dan penghapusan tugas bisa langsung tampil tanpa perlu memuat ulang halaman.
 
 ## Screenshot Aplikasi
 
